@@ -9,16 +9,124 @@
   </head>
   <body>
     <h1>CorUp2Dracor</h1>
-    <h2>About</h2>
-    <p>CorUp2DraCor ergibt ausgeschrieben sowas wie: “NDR Coronavirus-Update Podcast Transkripte PDF zu Drama Corpus Project TEI”. Die als PDFs vorliegenden Transkripte  werden zunächst durch das Skript “CorUp2CorPo.py” in ein Zwischenformat (JSON) überführt. Das JSON-Datenmodell wurde im Laufe des Seminars “Die Pandemie in Sprache und Text - Corona-Podcasts & Co.” zur gemeinsamen Basis für Auswertungen entwickelt. Mit “CorPo2DraCor.py” findet schließlich die Konversion in das DraCor-TEI-Format statt.</p>
+    <h2>Kurzbeschreibung</h2>
+    <p><a href="https://github.com/pbd84/CorUp2DraCor">CorUp2DraCor</a> ergibt ausgeschrieben sowas wie: “NDR Coronavirus-Update Podcast Transkripte PDF zu Drama Corpus Project TEI”. Die als PDFs <a href="https://www.ndr.de/nachrichten/info/Coronavirus-Update-Die-Podcast-Folgen-als-Skript,podcastcoronavirus102.html">vorliegenden Transkripte</a> werden zunächst durch das Skript <a href="https://github.com/pbd84/CorUp2DraCor/blob/main/CorUp2CorPo.py">“CorUp2CorPo.py”</a> in ein Zwischenformat (JSON) überführt. Das JSON-Datenmodell wurde im Laufe des <a href="https://lehre.idh.uni-koeln.de/lehrveranstaltungen/sosem21/die-pandemie-in-sprache-und-text-corona-podcasts-und-co/">Seminars “Die Pandemie in Sprache und Text - Corona-Podcasts & Co.”</a> zur gemeinsamen Basis für Auswertungen entwickelt. Mit <a href="https://github.com/pbd84/CorUp2DraCor/blob/main/CorPo2DraCor.py">“CorPo2DraCor.py”</a> findet schließlich die Konversion in das TEI-Format von <a href="https://dracor.org/">DraCor</a> statt.</p>
 
-    
+    <h2>Datenformate und -modelle</h2>
+
+
+    <h3>"CorUp"</h3>
+    <p>Datenformat: PDF</p>
+    <p>“CorUp” ist die hier gewählte Bezeichnung für das Publikationsformat der <a href="https://www.ndr.de/nachrichten/info/Coronavirus-Update-Die-Podcast-Folgen-als-Skript,podcastcoronavirus102.html">Podcast-Transkripte des NDR Coronavirus-Update Podcasts</a>. Die erste Seite enthält einen Header mit dem Datum, der Podcast-URL, dem Namen des Podcasts, der Nummer der Folge (Ausnahme: Sonderfolgen) und den sprechenden Personen (inkl. Beruf/Anstellung). Anschließend folgt auf den weiteren Seiten in zwei Spalten fortlaufend das Podcast-Transkript. Dabei werden die einzelnen Sprechanteile in der Zeile davor mit dem Namen der sprechenden Person fett gedruckt ebendieser zugeordnet. Zwischen den Sprechanteilen oder innerhalb eines Sprechanteils können Hervorhebungen in Großbuchstaben (Beispiel: “STRESSIGES WOCHENENDE”, Folge 104, Seite 1) vorkommen.
+Einige der Transkripte schließen mit Quellennachweisen ab.</p>
+
+    <h3>"CorPo"</h3>
+    <p>Datenformat: JSON</p>
+    <p>“CorPo” bezeichnet hier das im Seminar erarbeitete gemeinsame Basisformat für <a href="https://pbd84.github.io/PyPaPo/">durch die Studierenden getätigte Auswertungen</a>. Es besteht grundlegend aus einem Metadaten-Header (“metadata”) und einer Liste von Sprechanteilen  (“content”) als Key-Value-Paaren, wobei der Key eine laufende Nummer (ab 1) und der Value eine zweiteilige Liste bzw. ein Array mit dem Namen der sprechenden Person und dem verschriftlichten Inhalt ist.</p>
+    <h4>Datenmodell</h4>
+    <ul>
+      <li>metadata:
+        <ul>
+          <li>id</li>
+          <li>source</li>
+          <li>title</li>
+          <li>date: 
+            <ul>
+              <li>year</li>
+              <li>month</li>
+              <li>day</li>
+              <li>time</li>
+            </ul>
+          </li>
+          <li>speakers: ['Erika Mustermann']</li>
+        </ul>
+      <li>content:
+        <ul>
+          <li>'1': ['Erika Mustermann', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam.']</li>
+          <li>headlines: ['LOREM IPSUM', 'LOREM IPSUM AGAIN']</li>
+        </ul>
+      </li>
+      </li>
+    </ul>
+
+    <h3>DraCor</h3>
+    <p>Datenformat: TEI/XML</p>
+    <p>Das Format des Dramencorpus (mit eigenen <a href="https://dracor.org/doc/merch">Merchandising-Produkten [unbezahlte Werbung]</a>) basiert auf TEI/XML und besitzt ein <a href="https://dracor.org/schema.rng">entsprechendes XML-Schema</a>.</p>
+
+    <h2>Pipeline</h2>
+    <p>Bei der Ausführung der Skripte ist zu beachten: Da es sich um sehr einfache Skripte handelt, wurde auf ein Error-Handling verzichtet.</p>
+
+    <h3><a href="https://github.com/pbd84/CorUp2DraCor/blob/main/CorUp2CorPo.py">CorUp2CorPo.py</a></h3>
+    <ul>
+      <li>Ausgangsformat: PDF bzw. "CorUp"</li>
+      <li>Zielformat: JSON bzw. "CorPo"</li>
+      <li>Libraries (hauptsächlich): PyPDF2</li>
+    </ul>
+
+    <h3><a href="https://github.com/pbd84/CorUp2DraCor/blob/main/CorPo2DraCor.py">CorPo2DraCor.py</a></h3>
+    <ul>
+      <li>Ausgangsformat: JSON bzw. "CorPo"</li>
+      <li>Zielformat: DraCor TEI/XML</li>
+      <li>Libraries (hauptsächlich): lxml</li>
+      <li>(erzeugt zusätzlich in "data/xml" das Logfile "log.txt")</li>
+    </ul>
+
+    <h2>Erwartete Verzeichnisstruktur</h2>
+    <p>Die Verzeichnisstruktur wird durch das Repository vorgegeben. “data/pdf” sollte die zu konvertierenden Transkripte von <a href="https://www.ndr.de/nachrichten/info/Coronavirus-Update-Die-Podcast-Folgen-als-Skript,podcastcoronavirus102.html">https://www.ndr.de/nachrichten/info/Coronavirus-Update-Die-Podcast-Folgen-als-Skript,podcastcoronavirus102.html</a> (CorUp) beinhalten. “data/json” beinhaltet die im Zwischenformat (CorPo) vorliegenden Daten. “data/xml” beinhaltet schließlich die Ergebnisse (DraCor).</p>
+
+    <h2>Lessons Learned</h2>
+    <h3>PDF zu Text</h3>
+    <p>PyPDF2 liefert Texte. Die Qualität der gelieferten Texte ist durchwachsen und einzelne Zeilen werden nicht erkannt - bei einigen wenigen Transkripten fehlt etwa die Hälfte des Textes. Eine kurze Recherche ergab, dass mit pdftotext bessere Ergebnisse zu erwarten sind. Ein Wechsel zu pdftotext wurde aufgrund erwartbarer Veränderungen des Outputs und entsprechend nötiger Änderungen vom verarbeitenden Code nicht mehr durchgeführt.
+</p>
+
+    <h3>Python und XML: lxml</h3>
+    <p>Möchte man mit Python XML-Dateien bearbeiten oder erstellen, führt kein Weg an <a href="https://lxml.de/">lxml</a> vorbei. Das Hinzufügen von Informationen (jenseits der Zeichensatzcodierung) außerhalb des Root-Elements, was für die sinnvolle Verwendung von XML-Schemata notwendig ist, scheint nur so möglich zu sein. Die Installation der Dependencies von lxml kann sich jedoch schwierig und langwierig gestalten. Die ElementTree-API von lxml weicht dabei von der im aktuellen Python-Paket enthaltenen ElementTree-API ab - Namespaces müssen als zusätzliche Parameter angegeben werden, d.h. eine Anpassung des Codes ist bei einem Wechsel unvermeidbar.</p>
+
+    <h2>To-Do / Ought-To</h2>
+
+    <h3>PyPDF2 durch pdftotext ersetzen</h3>
+    <p>Wie bereits in den Lessons Learned erwähnt, dürfte die Verwendung von <a href="https://www.xpdfreader.com/pdftotext-man.html">pdftotext</a> bessere Ergebnisse liefern. Ein Vergleich fand bisher nicht statt.
+Vom Ergebnis sind mehrere weitere To-Dos abhängig:</p>
+
+    <h4>Effizienterer Code</h4>
+    <p>Aktuell funktioniert ndr2CorPo.py eher umständlich und ineffizient. Die einzelnen Zeilen der von PyPDF2 gelieferten Texte werden doppelt (Pseudo-Mark-up in erstem Schritt und dann weitere Verarbeitung in zweitem Schritt) durchlaufen und verarbeitet, was man als “historisch bedingt” (d.h. Lernprozess während der Verwendung ohne anschließende Anpassung) bezeichnen kann. Je nach Ergebnis des Wechsels zu pdftotext sollte erwogen werden, ob beispielsweise in einem ersten Schritt zunächst reine TXT-Dateien ohne Mark-up produziert werden sollten, gefolgt von einem zweiten Schritt, der die Daten direkt nach JSON überführt.<br/>
+Die Koppelung an das Ergebnis des vorherigen To-Do ist deswegen sinnvoll: Sollte PyPDF2 bereits vergleichbar gute Ergebnisse liefern, kann man hier nach dem Motto “never change a running system” vorgehen. Im anderen Fall würde aber sehr wahrscheinlich sowieso eine Anpassung des Codes vorgenommen werden müssen.</p>
+
+    <h4>Folgen-Titel</h4>
+    <p>PyPDF2 liefert leider nicht die Zeile mit dem Titel der Folge, wodurch nur die Nummer der Folge ausgelesen werden kann.</p>
+
+    <h4>Sonderfolgen</h4>
+    <p>Sonderfolgen sind teilweise anders aufgebaut und der Output von PyPDF2 weicht von dem bei normalen Folgen ab. Beispielsweise werden die Berufsbezeichnungen von den zu Beginn aufgelisteten Personen teilweise in derselben Zeile wie der Name ausgegeben. Dadurch wäre aktuell eine besondere Verarbeitung von Sonderfolgen nötig - sofern überhaupt möglich. Zur Zeit werden die betroffenen Folgen ausgeschlossen.</p>
+
+    <h4>Sonderbare Transkripte/PDFs</h4>
+    <p>Einige Transkripte können nicht - bzw. nur zu einem Grad, der ein nicht nutzbares Ergebnis liefert - von PyPDF2 ausgelesen werden.</p>
+
+    <h3>Weitere Automatisierung</h3>
+    <p>Die Einbettung in ein übergreifendes Skript wäre sinnvoll.</p>
+
+    <h3>Error-Handling / Logging</h3>
+    <p>Ein Error-Handling sowie optionale Log-Files wären wünschenswert. Aktuell werden nur beim Erstellen der DraCor-XMLs bspw. fehlende Sprecher:innennamen in log.txt notiert.</p>
+
+    <h3>Aktuell nicht verarbeitbare Folgen</h3>
+    <p>Bereits weiter oben unter “PyPDF2 durch pdftotext ersetzen” angesprochen: Es gibt mehrere Folgen bzw. Transkripte, die bisher nicht verarbeitet werden können. Dies hat verschiedene Gründe.
+Die betroffenen Transkripte sind:</p>
+    <ol>
+      <li>coronaskript170.pdf (Folge 29)</li>
+      <li>coronaskript216.pdf (Folge 51)</li>
+      <li>coronaskript218.pdf (Folge 52)</li>
+      <li>coronaskript282.pdf (Folge 82)</li>
+      <li>coronaskript286.pdf (Folge 84)</li>
+      <li>coronaskript340.pdf (Sonderfolge vom 18.11.2021)</li>
+      <li>coronaskript350.pdf (Sonderfolge vom 15.12.2021)</li>
+      <li>coronaskript352.pdf (Sonderfolge vom 17.12.2021)</li>
+      <li>coronaskript356.pdf (Sonderfolge vom 03.12.2021)</li>
+    </ol>
     
     <h2>Quellen & co</h2>
-
-    <p>(Als Grundlage für CorUp2DraCor.py diente ein für das Seminar von Moritz Eßer (und dessen Gruppe) geschriebenes Skript, das von mir weitgehend modifiziert wurde: https://github.com/Zadest/PodcastNLP/blob/dev-moritz/pdftotext_ndr.py)</p>
-
-    <p>(<a href="https://perfectmotherfuckingwebsite.com/">HTML & CSS role model</a>)</p>
+      <ul>
+        <li>Als Grundlage für CorUp2DraCor.py diente ein für das Seminar von Moritz Eßer (und dessen Gruppe) geschriebenes Skript, das von mir weitgehend modifiziert wurde: <a href="https://github.com/Zadest/PodcastNLP/blob/dev-moritz/pdftotext_ndr.py">https://github.com/Zadest/PodcastNLP/blob/dev-moritz/pdftotext_ndr.py</a></li>
+        <li><a href="https://perfectmotherfuckingwebsite.com/">HTML & CSS role model</a></li>
+      </ul>
   </body>
 </html>
 
