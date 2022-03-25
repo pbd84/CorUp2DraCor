@@ -25,6 +25,35 @@ Einige der Transkripte schließen mit Quellennachweisen ab.</p>
     <p>Datenformat: JSON</p>
     <p>“CorPo” bezeichnet hier das im Seminar erarbeitete gemeinsame Basisformat für <a href="https://pbd84.github.io/PyPaPo/">durch die Studierenden getätigte Auswertungen</a>. Es besteht grundlegend aus einem Metadaten-Header (“metadata”) und einer Liste von Sprechanteilen  (“content”) als Key-Value-Paaren, wobei der Key eine laufende Nummer (ab 1) und der Value eine zweiteilige Liste bzw. ein Array mit dem Namen der sprechenden Person und dem verschriftlichten Inhalt ist.</p>
     <h4>Datenmodell</h4>
+    &#123;
+    <ul>
+      <li>"metadata": &#123;
+        <ul>
+          <li>"id": "1001"</li>
+          <li>"source": "https://www.ndr.de/nachrichten/info/coronaskript1984.pdf"</li>
+          <li>"title": "Das nur ist nur ein Beispiel"</li>
+          <li>"date": &#123;
+            <ul>
+              <li>"year": "2051"</li>
+              <li>"month": "12"</li>
+              <li>"day": "31"</li>
+              <li>"time": ""</li>
+            </ul>
+            &#125;
+          </li>
+          <li>"speakers": ["Erika Mustermann"]</li>
+        </ul>
+        &#125;
+      </li>
+      <li>"content":
+        <ul>
+          <li>"1": ["Erika Mustermann", "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam."]</li>
+          <li>"2": ["Erika Mustermann", "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam."]</li>
+        </ul>
+      </li>
+      <li>"headlines": ["LOREM IPSUM", "LOREM IPSUM AGAIN"]</li>
+    </ul>
+    &#125;
 
     <h3>DraCor</h3>
     <p>Datenformat: TEI/XML</p>
